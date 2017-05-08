@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
-using Rsx;
+using Rsx.Dumb; using Rsx;
 
 #region NOT USED
 
@@ -57,7 +57,7 @@ namespace VTools
     }
 
     private DataTable dt;
-    private bool filtered = false;
+  //  private bool filtered = false;
 
     public ucTVFilter()
         : base()
@@ -67,7 +67,7 @@ namespace VTools
 
     private void NodeAfterCheck(object sender, TreeViewEventArgs e)
     {
-      filtered = false;
+    //  filtered = false;
 
       if (e.Node.Tag != null)
       {
@@ -102,10 +102,11 @@ namespace VTools
         }
 
         bs.Filter = filter;
-        filtered = true;
+      //  filtered = true;
       }
       catch (SystemException ex)
       {
+
       }
     }
 
@@ -140,7 +141,7 @@ namespace VTools
         // n.Checked = true;
         n.Nodes.Clear();
 
-        IList<string> vals = Dumb.HashFrom<string>(rows, n.Text).Select(o => o.Trim()).ToList();
+        IList<string> vals = Hash.HashFrom<string>(rows, n.Text).Select(o => o.Trim()).ToList();
 
         foreach (string sub in vals)
         {
@@ -161,7 +162,7 @@ namespace VTools
 
       foreach (TreeNode n in this.Nodes)
       {
-        IList<string> vals = Dumb.HashFrom<string>(rows, n.Text).Select(o => o.Trim()).ToList();
+        IList<string> vals = Hash.HashFrom<string>(rows, n.Text).Select(o => o.Trim()).ToList();
         foreach (string sub in vals)
         {
           TreeNode subnode = n.Nodes.OfType<TreeNode>().FirstOrDefault(o => (o.Text.CompareTo(sub) == 0));
@@ -292,7 +293,7 @@ namespace VTools
       }
     }
 
-    private DataTable dt;
+   // private DataTable dt;
 
     private ToolStripItem all = null;
     private ToolStripItem none = null;
@@ -336,7 +337,7 @@ namespace VTools
 
       //extract info
       IEnumerable<DataRow> rows = view.OfType<DataRowView>().Select(o => o.Row);
-      IList<string> vals = Dumb.HashFrom<string>(rows, field).Select(o => o.Trim()).ToList();
+      IList<string> vals = Hash.HashFrom<string>(rows, field).Select(o => o.Trim()).ToList();
 
       foreach (string sub in vals)
       {
@@ -355,7 +356,7 @@ namespace VTools
       //extract info from ACTUAL dataview
       rows = bs.List.OfType<DataRowView>().Select(o => o.Row);
 
-      vals = Dumb.HashFrom<string>(rows, field).Select(o => o.Trim()).ToList();
+      vals = Hash.HashFrom<string>(rows, field).Select(o => o.Trim()).ToList();
       foreach (string sub in vals)
       {
         TreeNode subnode = nodes.FirstOrDefault(o => (o.Text.CompareTo(sub) == 0));
